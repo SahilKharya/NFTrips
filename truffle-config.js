@@ -1,32 +1,29 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider')
 require('dotenv').config()
-
-const mnemonic = process.env.MNEMONIC
-const url = process.env.RPC_URL
-
+// 0x5F3313814F7FB3E11C4a240141689BA9933c5607
 module.exports = {
   networks: {
-    cldev: {
-      host: '127.0.0.1',
-      port: 8545,
-      network_id: '*',
-    },
-    ganache: {
-      host: '127.0.0.1',
-      port: 7545,
-      network_id: '*',
-    },
-    kovan: {
-      provider: () => {
-        return new HDWalletProvider(mnemonic, url)
+    rinkeby: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, Url, 2)
       },
-      network_id: '42',
-      skipDryRun: true
+    network_id: "4",
+    networkCheckTimeout: 1000000,
+    timeoutBlocks: 200,
+    addressIndex: 2
+
+  },
+    mainnet: {
+      provider: () => {
+        return new HDWalletProvider(process.env.MAINNET_MNEMONIC, process.env.MAINNET_RPC_URL)
+      },
+      network_id: '1',
+      skipDryRun: true,
     },
   },
   compilers: {
     solc: {
       version: '0.6.6',
     },
-  },
+  }
 }
