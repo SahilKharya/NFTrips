@@ -1,0 +1,23 @@
+{
+    "name": "The Taj Day",
+    "description": "The memorable stay at the Taj",
+    "image": "https://ipfs.io/ipfs/Qmb1Ls7DP435gqFtkEhqvrWdB4QgFVjQeniHwtQTVmjGiz?filename=Taj_stamp.png",
+    "attributes": [
+        {
+            "trait_type": "Adventure",
+            "value": 16
+        },
+        {
+            "trait_type": "Attractions",
+            "value": 5
+        },
+        {
+            "trait_type": "Services",
+            "value": 26
+        },
+        {
+            "trait_type": "Experience",
+            "value": 82
+        }
+    ]
+}

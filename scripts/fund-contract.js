@@ -1,4 +1,4 @@
-const RandomNumberConsumer = artifacts.require('RandomNumberConsumer')
+const NFTrip = artifacts.require('NFTrip')
 const LinkTokenInterface = artifacts.require('LinkTokenInterface')
 
 /*
@@ -12,11 +12,11 @@ const payment = process.env.TRUFFLE_CL_BOX_PAYMENT || '1000000000000000000'
 
 module.exports = async callback => {
     try {
-        const randomNumberConsumer = await RandomNumberConsumer.deployed()
-        const tokenAddress = await randomNumberConsumer.getChainlinkToken()
+        const nFTrip = await NFTrip.deployed()
+        const tokenAddress = await nFTrip.LinkToken()
         const token = await LinkTokenInterface.at(tokenAddress)
-        console.log('Funding contract:', randomNumberConsumer.address)
-        const tx = await token.transfer(randomNumberConsumer.address, payment)
+        console.log('Funding contract:', nFTrip.address)
+        const tx = await token.transfer(nFTrip.address, payment)
         callback(tx.tx)
     } catch (err) {
         callback(err)
