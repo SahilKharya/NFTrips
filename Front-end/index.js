@@ -35,199 +35,867 @@ window.addEventListener('load', async () => {
 });
 console.log(window.web3)
 // let contractAddress = "0x11De606817a302A0031B41eDc4Eb636930dBD204"
-let contractAddress = "0x4BB265a2b5BBfa75AB67d3128E845e2ED383629f"
+let bookingContractAddress = "0xa6F42Ad12617F6fc10758b23aeE5dd5Cc215e3c7"
+let NFTripAddress = "0xe6278b752a70449eed5809429f3352AD6A2d4630"
 
 
 
-var contractAbi = web3.eth.contract([
+var bookingContractAbi = web3.eth.contract([
   {
-    "constant": true,
+    "anonymous": false,
     "inputs": [
       {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "bookedBeds",
-    "outputs": [
-      {
-        "name": "bedId",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "roomId",
         "type": "uint256"
       },
       {
-        "name": "hospitalId",
-        "type": "uint256"
-      },
-      {
+        "indexed": false,
+        "internalType": "address",
         "name": "name",
         "type": "address"
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    "name": "NewRoomBooking",
+    "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
       {
         "indexed": false,
-        "name": "hospitalId",
+        "internalType": "uint256",
+        "name": "hotelId",
         "type": "uint256"
       },
       {
         "indexed": false,
+        "internalType": "string",
         "name": "name",
         "type": "string"
       },
       {
         "indexed": false,
+        "internalType": "string",
         "name": "city",
         "type": "string"
       },
       {
         "indexed": false,
+        "internalType": "uint256",
         "name": "noOfBeds",
+        "type": "uint256"
+      }
+    ],
+    "name": "addHotel",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "bookedRooms",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "roomId",
         "type": "uint256"
       },
       {
-        "indexed": false,
-        "name": "isPrivate",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "hotelId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "name",
+        "type": "address"
       }
     ],
-    "name": "NewHospital",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "hotelsList",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "city",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "roomPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "roomAvailable",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_city",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_noOfBeds",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_roomPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "_addHotel",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_hotelId",
+        "type": "uint256"
+      }
+    ],
+    "name": "_bookOneRoom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
+);
+
+var NFTripContractAbi = web3.eth.contract([
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_VRFCoordinator",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_LinkToken",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_keyhash",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "approved",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "Approval",
     "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
         "indexed": false,
-        "name": "bedId",
-        "type": "uint256"
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
       }
     ],
-    "name": "NewBedBooking",
+    "name": "ApprovalForAll",
     "type": "event"
   },
   {
-    "constant": true,
+    "anonymous": false,
     "inputs": [
       {
-        "name": "_key",
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
-    "name": "hospitalInfo",
+    "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "LinkToken",
     "outputs": [
       {
-        "components": [
-          {
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "name": "city",
-            "type": "string"
-          },
-          {
-            "name": "noOfBeds",
-            "type": "uint256"
-          },
-          {
-            "name": "isPrivate",
-            "type": "bool"
-          },
-          {
-            "name": "bedPrice",
-            "type": "uint256"
-          },
-          {
-            "name": "bedAvailable",
-            "type": "uint256"
-          }
-        ],
+        "internalType": "address",
         "name": "",
-        "type": "tuple"
+        "type": "address"
       }
     ],
-    "payable": false,
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "VRFCoordinator",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "approve",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
-        "name": "_name",
-        "type": "string"
-      },
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
       {
-        "name": "_city",
-        "type": "string"
-      },
-      {
-        "name": "_noOfBeds",
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "baseURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getApproved",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
       },
       {
-        "name": "_isPrivate",
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "isApprovedForAll",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
         "type": "bool"
-      },
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
       {
-        "name": "_bedPrice",
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "nonces",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
     ],
-    "name": "_addHospital",
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ownerOf",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "places",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "adventure",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "attractions",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "services",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "experience",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "randomResult",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "requestId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "randomness",
+        "type": "uint256"
+      }
+    ],
+    "name": "rawFulfillRandomness",
     "outputs": [],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
-        "name": "_hospitalId",
+        "internalType": "bytes32",
+        "name": "_keyHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_seed",
         "type": "uint256"
       }
     ],
-    "name": "_bookOneBed",
-    "outputs": [],
-    "payable": false,
+    "name": "requestRandomness",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "requestId",
+        "type": "bytes32"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
-        "name": "_hospitalId",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        "name": "_bedId",
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
-    "name": "_freeBed",
+    "name": "safeTransferFrom",
     "outputs": [],
-    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_data",
+        "type": "bytes"
+      }
+    ],
+    "name": "safeTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
+      }
+    ],
+    "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
+      }
+    ],
+    "name": "supportsInterface",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenByIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenOfOwnerByIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "userProvidedSeed",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "place",
+        "type": "string"
+      }
+    ],
+    "name": "requestNewRandomPlace",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getNumberOfPlaces",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPlaceStats",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getTokenURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_tokenURI",
+        "type": "string"
+      }
+    ],
+    "name": "setTokenURI",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   }
 ]);
-
 // let contract = web3.eth.contract(abi, contractAddress);
-var contract = contractAbi.at(contractAddress);
+var bookingContract = bookingContractAbi.at(bookingContractAddress);
+var NFTripContract = NFTripContractAbi.at(NFTripAddress);
 
-// contractAddress and abi are setted after contract deploy
-// var contractAddress = '0x11De606817a302A0031B41eDc4Eb636930dBD204';
-// var abi2 = JSON.parse( '[{"constant":true,"inputs":[],"name":"getInfo","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_info","type":"string"}],"name":"setInfo","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]' );
-//contract instance
-// contract = new web3.eth.Contract(abi, contractAddress);
 
 // Accounts
 var account;
@@ -249,47 +917,43 @@ web3.eth.getAccounts(function (err, accounts) {
 //Smart contract functions
 function registerSetInfo() {
   info = $("#newInfo").val();
-  contract.methods.setInfo(info).send({ from: account }).then(function (tx) {
+  bookingContract.methods.setInfo(info).send({ from: account }).then(function (tx) {
     console.log("Transaction: ", tx);
   });
   $("#newInfo").val('');
 }
 
-function getHospitalInfo() {
-  // contract.hospitals[0].call({}, function (error, result) {
-  //   if (!error)
-  //     console.log(result);
-  //   else
-  //     console.log(error.code)
-  // })
-  hospitalID = document.getElementById('hospitalID').value;
+var hotelName;
 
-  contract.hospitalInfo.call(hospitalID, function (err, result) {
-    // if (!err) {
-    //   alert(result)
-    // }
-    if (!err)
+
+function getHotelInfo() {
+  // hotelId = document.getElementById('hotelId').value;
+  console.log("GET")
+  bookingContract.hotelsList.call(0, function (err, result) {
+    if (!err){
       console.log(result);
+      hotelName = result[0]
+      document.getElementById("card-title").innerHTML = result[0];
+      document.getElementById("card-text").innerHTML = result[1];
+      document.getElementById("available").innerHTML = result[3].c[0];
+      document.getElementById("costprice").innerHTML = result[2].c[0];
+
+    }
     else
       console.log(err.code)
   });
-  // contract.MY_READ_ONLY_METHOD().call({}).then((res) => {
-  //   console.log(res)
-  // }).catch((e, r) => {
-  //   console.log(JSON.stringify(e, Object.getOwnPropertyNames(e)))
-  // })
 
 }
-function addHospitalInfo() {
+
+function addHotelInfo() {
   name = document.getElementById('name').value;
   city = document.getElementById('city').value;
   beds = document.getElementById('beds').value;
-  gov = document.getElementById('gov').value;
   price = document.getElementById('price').value;
 
-  contract._addHospital.sendTransaction(name, city, beds, gov, price, {
+  bookingContract._addHotel.sendTransaction(name, city, beds, price, {
     from: account,
-    gas: 100000
+    gas: 300000
   }, function (error, result) {
     if (!error)
       console.log(result);
@@ -298,11 +962,35 @@ function addHospitalInfo() {
   })
 }
 
-function bookBed() {
-  bookBedID = document.getElementById('bookBedID').value;
-  contract._addHospital.sendTransaction(bookBedID, {
+function bookRoom() {
+console.log(hotelName);
+
+  // bookBedID = document.getElementById('bookBedID').value;
+  bookingContract._bookOneRoom.sendTransaction(0, {
     from: account,
     gas: 100000
+  }, function (error, result) {
+    if (!error)
+      console.log(result);
+    else
+      console.log(error.code)
+  })
+  bookingContract.hotelsList.call(0, function (err, result) {
+    if (!err){
+      console.log(result);
+      hotelName = result[0]
+      document.getElementById("card-title").innerHTML = result[0];
+      document.getElementById("card-text").innerHTML = result[1];
+      document.getElementById("available").innerHTML = result[3].c[0];
+      document.getElementById("costprice").innerHTML = result[2].c[0];
+
+    }
+    else
+      console.log(err.code)
+  });
+  NFTripContract.requestNewRandomPlace.sendTransaction('123','The Taj', {
+    from: account,
+    gas: 600000
   }, function (error, result) {
     if (!error)
       console.log(result);

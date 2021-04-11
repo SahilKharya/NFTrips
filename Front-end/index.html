@@ -21,7 +21,7 @@
   <div class="container">
     <div class="text-center" style="background-color: cornflowerblue; border-radius: 5px; text-align: center;">
       <p style="color: whitesmoke; text-align: center;">Current Ethereum Price (in USD):
-      <h5 id="eth_inr"> </h5>
+      <span id="eth_inr"> </span>
       </p>
 
     </div>
@@ -59,19 +59,22 @@
               <label for="price">Price of a Bed</label>
               <input type="number" class="form-control" id="price">
             </div>
-            <button onclick="addHotelInfo()" type="submit" class="btn btn-primary">Submit</button>
+            <button onclick="addHotelInfo()" type="button" class="btn btn-primary">Submit</button>
 
           </form>
         </div>
       </div>
-      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+      <div onclick="getHotelInfo()"  class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <div class="card" style="width: 18rem;">
           <img src="hotel.png" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title" id="card-title">  
+            </h5>
+            <p class="card-text" id="card-text"></p>
+            <p class="card-text">Rooms Availble: <span id="available"></span></p>
+            <p class="card-text">Price: <span id="costprice"></span> </p>
+
+            <a href="#" class="btn btn-primary" onclick="addHotelInfo()" type="button">Book</a>
           </div>
         </div>
 
