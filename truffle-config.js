@@ -20,6 +20,14 @@ module.exports = {
       network_id: '1',
       skipDryRun: true,
     },
+    matic: {
+      provider: () => new HDWalletProvider(process.env.MATIC_MNEMONIC, 'https://rpc-mumbai.matic.today'),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    }
+
   },
   compilers: {
     solc: {

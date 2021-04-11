@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NFTrips</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-light bg-light" style="justify-content: center;">
+    <h1 class="page-header">NFTrips- Your Non Fungible Trips</h1>
+
+  </nav>
+  <br>
+  <div class="container">
+    <div class="text-center" style="background-color: cornflowerblue; border-radius: 5px; text-align: center;">
+      <p style="color: whitesmoke; text-align: center;">Current Ethereum Price (in USD):
+      <h5 id="eth_inr"> </h5>
+      </p>
+
+    </div>
+    <br>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+          type="button" role="tab" aria-controls="pills-home" aria-selected="true">Add Hotel</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+          type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Book Hotel Room</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="card">
+          <br>
+          <h3>New Hotel Info</h3>
+          <form>
+            <div class="form-group">
+              <label for="name">Hotel Name</label>
+              <input type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+              <label for="city">Hotel City</label>
+              <input type="text" class="form-control" id="city">
+
+            </div>
+            <div class="form-group">
+              <label for="beds">No of Beds Available</label>
+              <input type="number" class="form-control" id="beds">
+            </div>
+            <div class="form-group">
+              <label for="price">Price of a Bed</label>
+              <input type="number" class="form-control" id="price">
+            </div>
+            <button onclick="addHotelInfo()" type="submit" class="btn btn-primary">Submit</button>
+
+          </form>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="card" style="width: 18rem;">
+          <img src="hotel.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- <div class="row">
+
+      <div class="col-md-4">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#GetHotelInfo"
+          aria-expanded="false" aria-controls="GetHotelInfo">Hotel Info</button>
+        <div class="collapse multi-collapse" id="GetHotelInfo">
+          <div class="card">
+
+            <br>
+            <h3>Get Hotel Info using ID</h3>
+            <form>
+              <div class="form-group">
+                <label for="name">Hotel Id</label>
+                <input type="number" class="form-control" id="hotelID">
+              </div>
+              <button onclick="getHotelInfo()" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            <div class="card">
+              <p>Name: <span id="hName"></span></p>
+              <p>City: <span id="hCity"></span></p>
+
+              <p>No. of Beds: <span id="hBedsNo"></span></p>
+
+              <p>Hotel is Private: <span id="private"></span></p>
+              <p>Price of Bed: <span id="bedPrice"></span></p>
+              <p>Bed Available: <span id="availableNo"></span></p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 text-right" style="float: right;">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#bookBed"
+          aria-expanded="false" aria-controls="bookBed" style="text-align: center;">Bood A Bed</button>
+        <div class="collapse multi-collapse text-left" id="bookBed">
+          <div class="card">
+            <br>
+            <h3 class="sub-header">Book Bed With Hotel Id</h3>
+            <form>
+              <div class="form-group">
+                <label for="name">Hotel Id</label>
+                <input type="number" class="form-control" id="bookBedID">
+              </div>
+              <button onclick="bookBed()" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div> -->
+  </div>
+
+  <script src="./index.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
