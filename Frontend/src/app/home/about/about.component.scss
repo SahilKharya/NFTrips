@@ -1,0 +1,25 @@
+.intro {
+    height: 93vh;
+    width: 100vw;
+    margin: 0;
+    background: url(../../../assets/room.jpeg);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.website-name {
+    text-align: center;
+    align-self: center;
+    font-size: 35px;
+    color: #000;
+}
+
+.break-line {
+    border: 2px solid black;
+    width: 90px;
+    margin-left: 38%;
+    margin: 0px;
+}

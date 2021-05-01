@@ -1,0 +1,38 @@
+.intro {
+    height: 93vh;
+    width: 100vw;
+    margin: 0;
+    background: url(../../../assets/full_taj.png);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    align-content: center;
+    justify-content: center;
+}
+.website-name{
+    text-align: center;
+    font-size: 80px;
+    font-weight: 600;
+    color: #1b1a1a;
+    margin-top: -100px;
+    font-family: "Courgette", cursive;
+    justify-content: center;
+}
+.break-line {
+    border: 2px solid #1b1a1a;
+    justify-content: center;
+    width: 90px;
+    margin-left: 38%;
+    margin-bottom: 0px;
+}
+.description {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 17px;
+    color: #1b1a1a;
+    font-weight: bold;
+    justify-content: center;
+
+}
