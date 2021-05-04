@@ -90,7 +90,7 @@ export class ContractService {
   //   });
   // }
 
-  addHotel(name, city, beds, price) {
+  async addHotel(name, city, beds, price) {
 
     this.getMyContract().methods._addHotel(name, city, beds, price).send({
       from: this.account,
@@ -107,7 +107,7 @@ export class ContractService {
     })
   }
 
-  bookRoom(hotelid) {
+  async bookRoom(hotelid) {
     // bookBedID = document.getElementById('bookBedID').value;
     this.getMyContract().methods._bookOneRoom(hotelid).send({
       from: this.account,
