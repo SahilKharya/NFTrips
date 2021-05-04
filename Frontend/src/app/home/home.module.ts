@@ -8,6 +8,7 @@ import { HomeRoute } from '../home/home.routes';
 import { MainComponent } from './main/main.component';
 import { ProductComponent } from './product/product.component';
 import { AboutComponent } from './about/about.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -17,10 +18,12 @@ import { AboutComponent } from './about/about.component';
     NavbarComponent,
     MainComponent,
     ProductComponent,
-    AboutComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(HomeRoute),
     AppMaterialModule
   ],
