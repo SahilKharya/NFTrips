@@ -40,6 +40,7 @@ export class ProductComponent implements OnInit {
   }
 
   addHotelInfo(form) {
+    console.log(form);
     let name = form.value.name
     let city = form.value.city
     let beds = form.value.beds

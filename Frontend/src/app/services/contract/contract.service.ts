@@ -91,6 +91,7 @@ export class ContractService {
   // }
 
   async addHotel(name, city, beds, price) {
+    console.log('result',name, city, beds, price);
 
     this.getMyContract().methods._addHotel(name, city, beds, price).send({
       from: this.account,

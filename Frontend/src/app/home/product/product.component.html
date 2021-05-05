@@ -21,26 +21,25 @@
             <div class="card">
                 <br>
                 <h3>New Hotel Info</h3>
-                <form [formGroup]="hotelForm">
+                <form [formGroup]="hotelForm" (submit)="addHotelInfo(hotelForm)">
                     <div class="form-group">
                         <label for="name">Hotel Name</label>
-                        <input type="text" class="form-control" id="name">
+                        <input formControlName="name" name="name" type="text" class="form-control" id="name">
                     </div>
                     <div class="form-group">
                         <label for="city">Hotel City</label>
-                        <input type="text" class="form-control" id="city">
+                        <input formControlName="city" name="city" type="text" class="form-control" id="city">
 
                     </div>
                     <div class="form-group">
                         <label for="beds">No of Beds Available</label>
-                        <input type="number" class="form-control" id="beds">
+                        <input formControlName="beds" name="beds" type="number" class="form-control" id="beds">
                     </div>
                     <div class="form-group">
                         <label for="price">Price of a Bed</label>
-                        <input type="number" class="form-control" id="price">
+                        <input formControlName="price" name="price" type="number" class="form-control" id="price">
                     </div>
-                    <!-- <button (click)="addHotelInfo()" type="button" class="btn btn-primary">Submit</button> -->
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
 
                 </form>
             </div>
@@ -57,7 +56,7 @@
                     <p class="card-text">Rooms Availble: <span id="available"></span></p>
                     <p class="card-text">Price: <span id="costprice"></span> </p>
 
-                    <a class="btn btn-primary" type="button">Book</a>
+                    <a (click)="getHotelInfo()" class="btn btn-primary" type="button">Book</a>
                 </div>
             </div>
 
